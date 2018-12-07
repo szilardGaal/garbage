@@ -1,0 +1,278 @@
+== The Story
+
+It's 2020.
+The mentors of Codecool Phnom Pen (capital of Cambodia) are fed up, that despite the strict house rules, no one cares about collecting the waste in a selective way in the school.
+They decided to make an automated dustbin, which can detect different types of garbage, and can put them to different containers automatically.
+
+Mentors at Codecool usually have a whole bunch of things to do, and they aren't exceptions either, so they don't have time to implement the dustbin's software.
+Luckily it's internal computer is capable of running Java programs...
+
+Have you found out yet???
+YES, it's your job to implement it in an Object-Oriented way!
+
+== The task
+
+You're required to implement classes in the repository in a patricular in this order
+
+. `Garbage.java`
+. `PlasticGarbage.java`
+. `PaperGarbage.java`
+. `Dustbin.java`
+. `Main.java` (this one is special, read on)
+
+For each file follow these steps, *but watch out*, re-read it _thrice_ (I don't know the equivalent word which would mean four-times, but I should look it up).
+Seriously, re-read it.
+No, dude, seriously.
+
+* Write your code into `Garbage.java` and save it.
+* Compile the sourcefile
+```
+javac Garbage.java
+```
+* If you get no output (there's no error or anything else on the terminal) you've successfully compiled the file.
+* This doesn't mean that it works :)
+  You're not done!
+* After the compilation is done run the tests for that file, e.g. when you've compiled `Garbage.java` do
+```
+javac TestGarbage.java
+```
+* If you get no output for this then you've compiled the test successfully, however this doesn't mean that your code is correct.
+  You're not done!
+* Run the tests, e.g. after you've successfully compiled *both* `Garbage.java` and `TestGarbage.java` do
+```
+java -ea TestGarbage
+```
+* The `-ea` is important it _enables assertions_ in the JVM - you don't to no about this, just use it for now.
+* If you see `OK` in the terminal then your `Garbage` class's implementation is correct, you're done with `Garbage.java`, move to the next step.
+
+Now go, and re-read this.
+I'm being serious here.
+
+== The playground, `Main.java`
+
+In `Main.java` you need to write code the serves as a "`movie script`" for a little story.
+
+Think of the contents of the `main` method as series of things (statements) that happen over time in the life of an ordinary dustbin.
+
+A short script could be ...
+
+____
+*Workers in the cantine* +
+They leave *three rotten tomatoes* and a *plastic milk jug* on the floor beside the dustbin. +
+They leave the scene.
+
+*Cleaning lady arrives* +
+Sshe strolls into the cantine and she's furious as she sees this mess. +
+She *throws the three tomatoes -- one-by-one -- into the dustbin*. +
+Picks up the *plastic jug*. +
+She *checks if it cleans* (it's not obviously!). +
+She *cleans it, then throws that too into the bin*. +
+She clears her throat, *empties the dustbin*. +
+Finally she leaves the scene.
+____
+
+A possible _translation_ of this to Java code could look like as follows.
+We only need to create objects that necessary for us for the purposes of the assignment (no need for a cleaning lady class or anything like that).
+
+```
+// We create the garbage objects that appear in the script.
+Garbage[] rottenTomatoes = new Garbage[3];
+for (int i = 0; i < 3; i++) {
+    rottenTomatoes[i] = new Garbage("rotten tomato nr." + (i + 1));
+}
+
+// Then we create the plastic milk jug.
+Garbage milkJug = new PlasticGarbage("plastic milk jug", false);
+
+/*
+ Note that on the leftside the type is Garbage, but on the right it's PlasticGarbage.
+ We can do this, because PlasticGarbage extends Garbage, which in simple terms
+ means that every plastic garbage is garbage, but not every garbage is plastic garbage.
+*/
+
+// We create the dustbin where the garbages will be thrown.
+Dustbin dustbin = new Dustbin("Jenny's handsome");
+
+// Showing the contents of the dustbin for the sake of seeing something on the terminal :)
+dustbin.displaycontents();
+
+// Then the cleaning lady comes and does her thing.
+for (int i = 0; i < 3; i++) {
+    /*
+     She throws every piece of rotten tomato in the dustbin.
+     This doesn't mean the tomato Garbage instance will be destroyed or anything,
+     they are just now inside of the Dustbin object.
+    */
+    dustbin.throwOutGarbage(rottenTomatoes[i]);
+}
+
+// Then she cleans the milk jug.
+if (!milkJug.isClean()) {
+    milkJug.clean()
+}
+
+// Throws out the milk jug.
+dustbin.throwOutGarbage(milkJug);
+
+// Empties the contents.
+dustbin.emptyContents()
+
+// Displaying what's in there.
+dustbin.displaycontents();
+
+// Aaaaaaand the scene fades out!
+```
+
+Your goal is _playaround_ and create something like this.
+Two rules apply
+
+* _playaround_, create lots of instances, pass them around, see what happens, see what compiles, what don't,
+* whatever you create it should compile and you should be able to run it :)
+
+As usual, you compile it, then run it (every class that has a `main` method with a signature like in `Main.java` is executable (after compilaton).
+
+```
+javac Main.java
+java Main
+```
+
+== The specification
+
+=== `Garbage.java`
+
+This is the file containing a regular garbage's logic.
+
+==== Instance fields
+
+* `String name`: stores the custom name of the garbage object (e.g. `"rotten tomatoes"`)
+
+==== Constructors
+
+* `Garbage(String name)`: the class has a single constructor that takes the `name` of the garbage to be created.
+
+==== Instance methods
+
+===== `String getName()`
+
+* when called returns the object.
+
+=== `PaperGarbage.java`
+
+This is the file containing the logic of a garbage made of paper.
+The `PaperGarbage` class inherits the logic of the `Garbage` class.
+
+==== Instance fields
+
+* `String name`: stores the name of the garbage (should be inherited from the `Garbage`)
+* `boolean isSqueezed`: stores if the garbage is squeezed (`true`) or not (`false`)
+
+==== Constructors
+
+* `PaperGarbage(String name, boolean isSqueezed)`: the class has a single constructor that takes two parameters `name` (the name of the paper garbage
+and `isSqueezed` (`true` if the garbage is squeezed from the start or `false` otherwise).
+
+==== Instance methods
+
+===== `void squeeze()`
+
+* when called it sets the object's `isSqueezed` field to `true`
+
+===== `boolean isSqueezed()`
+
+* when called returns `true` if the object is squeezed, `false` otherwise.
+
+=== `PlasticGarbage.java`
+
+This is the file containing the logic of a garbage made of plastic.
+`PlasticGarbage` class inherits the logic of the `Garbage` class.
+
+==== Instance fields
+
+* `String name`: stores the name of the garbage (should be inherited from the `Garbage`)
+* `boolean isClean`: stores if the garbage is clean (`true`) or not (`false`)
+
+==== Constructors
+
+* `PlasticGarbage(String name, boolean isClean)`: the class has a single constructor that takes two parameters `name` (the name of the plastic garbage
+and `isClean` (`true` if the garbage is clean from the start or `false` otherwise).
+
+==== Instance methods
+
+===== `void clean()`
+
+* when called, it sets the object's `isClean` attribute to `true`
+
+===== `boolean isClean()`
+
+* when called returns `true` if the object is clean, `false` otherwise.
+
+=== `Dustbin.java`
+
+This file should contain all the logic, what our automated dustbin can do.
+
+==== Instance fields
+
+* `String color`: stores the dustbin's color
+* `PaperGarbage[] paperContent`: an array, stores `PaperGarbage` instances
+* `PlasticGarbage[] plasticContent`: an array, stores `PlasticGarbage` instances
+* `Garbage[] houseWasteContent`: an array, stores `Garbage` instances
+
+==== Instance methods
+
+==== `PaperGarbage[] getPaperContent()`
+
+Accessor for the `paperContent` field.
+
+==== `PlasticGarbage[] getPlasticContent()`
+
+Accessor for the `plasticContent` field.
+
+==== `Garbage[] getHouseWasteContent()`
+
+Accessor for the `houseWasteContent` field.
+
+===== `void displayContents()`
+
+If it's called it prints all the contents of the dustbin in the following format
+
+```
+Red Dustbin!
+
+House waste content: 2 item(s)
+
+    Rotten tomato
+    Wooden leg
+
+Paper content: 0 item(s)
+
+Plastic content: 1 item(s)
+
+    Milk jug
+```
+
+The first line is the dustbin's `color + " Dustbin!"`.
+
+===== `void throwOutGarbage(Garbage garbage) throws DustbinContentException`
+
+* Receives an argument.
+* If the argument is an instance of the `PlasticGarbage` class, and it's clean, then it puts that into the `plasticContent` array.
+  If the `PlasticGarbage` instance is not clean, it raises a `DustbinContentException` exception.
+* If the argument is an intance of the `PaperGarbage` class, and it's squeezed, then it puts that into the `paperContent` array.
+  If the `PaperGarbage` instance is not squeezed, it raises a DustbinContentException exception.
+* If the argument is an instance of the `Garbage` class (but not a `PaperGarbage` or a `PlasticGarbage`), then it puts that into the `houseWasteContent` array.
+* If the argument is not an instance of the classes above, it raises a `DustbinContentException` exception.
+
+===== `void emptyContents()`
+
+* If it's called, `plasticContent`, `paperContent` and `houseWasteContent` array gets emptied.
+
+=== `DustbinContentException.java`
+
+This file contains a custom exception, called `DustbinContentException`, which is raised by the `Dustbin` in some error cases (see below).
+It's already implemented, so you don't have to touch this file at all.
+
+=== `Test*.java`
+
+These files contains test cases for the specification above.
+You mustn't touch it, but it worth checking it, as it can help understand the specification above.
+You're ready with your assignment when all the tests run with success.
