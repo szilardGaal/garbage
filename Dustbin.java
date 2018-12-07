@@ -4,22 +4,15 @@ public class Dustbin {
     PlasticGarbage[] plasticContent;
     Garbage[] houseWasteContent;
 
+    Dustbin(String col) {
+        color = col;
+    }
+
     PaperGarbage [] getPaperContent() {
-        for (Object litter: getHouseWasteContent()) {
-            if (litter instanceof PaperGarbage) {
-                litter = (PaperGarbage)litter;
-        
-            }
-        }
         return paperContent;
     }
 
     PlasticGarbage[] getPlasticContent() {
-        for (Object litter: getHouseWasteContent()) {
-            if (litter instanceof PlasticGarbage) {
-                litter = (PlasticGarbage)litter;
-            }
-        }
         return plasticContent;
     }
 

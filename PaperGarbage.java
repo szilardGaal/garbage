@@ -1,9 +1,8 @@
 public class PaperGarbage extends Garbage {
-    String name;
     boolean squeezed;
 
-    PaperGarbage(String n, boolean isSq) {
-        name = n;
+    public PaperGarbage(String n, boolean isSq) {
+        super(n);
         squeezed = isSq;
     }
 

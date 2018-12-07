@@ -1,9 +1,8 @@
 public class PlasticGarbage extends Garbage {
-    String name;
     boolean isClean;
 
-    PlasticGarbage(String n, boolean cl) {
-        name = n;
+    public PlasticGarbage(String n, boolean cl) {
+        super(n);
         isClean = cl;
     }
 

@@ -1,11 +1,11 @@
 public class Garbage {
     String name;
 
-    Garbage() {
+    public Garbage() {
         name = "general litter";
     }
 
-    Garbage(String n) {
+    public Garbage(String n) {
         name = n;
     }
 
