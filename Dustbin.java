@@ -8,7 +8,7 @@ public class Dustbin {
         color = col;
     }
 
-    PaperGarbage [] getPaperContent() {
+    PaperGarbage[] getPaperContent() {
         return paperContent;
     }
 
@@ -19,4 +19,56 @@ public class Dustbin {
     Garbage[] getHouseWasteContent() {
         return houseWasteContent;
    }
+
+   public void displayCOntents() {
+
+        System.out.println(this.color + " dustbin!");
+
+        System.out.println("\nHouse waste content: " + getHouseWasteContent().length + " item(s).\n");
+        for (Object item: getHouseWasteContent()) {
+            System.out.println(item);
+        }
+        System.out.println("\nPaper content: " + getPaperContent().length + " item(s).\n");
+        for (Object item: getPaperContent()) {
+            System.out.println(item);
+        }
+        System.out.println("\nPlastic content: " + getPlasticContent().length + " item(s).\n");
+        for (Object item: getPlasticContent()) {
+            System.out.println(item);
+        }
+    }
+
+    public void throwOutGarbage(Garbage garbage) throws DustbinContentException {
+
+        if (garbage instanceof PlasticGarbage) {   
+            if (((PlasticGarbage)garbage).isClean() == false) {
+                throw new DustbinContentException();
+            } else {
+                garbage = (PlasticGarbage)garbage;
+            }
+
+        } else if (garbage instanceof PaperGarbage) {
+            if (((PaperGarbage)garbage).isSqueezed() == false) {
+                throw new DustbinContentException();
+            } else {
+                garbage = (PaperGarbage)garbage;
+            }
+        }
+    }
+    
+    public void emptyContents() {
+        
+        eraser(plasticContent);
+        eraser(paperContent);
+        eraser(houseWasteContent);
+    }
+
+    private void eraser(Object[] litter) {
+
+        litter = null;
+    }
+}
+
+class DustbinContentException extends Exception {
+
 }
