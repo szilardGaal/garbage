@@ -14,8 +14,8 @@ public class Main {
         for (int i = 0; i < 3; i++) {
             dustbin.throwOutGarbage(rottenTomatoes[i]);
         }
-        if (!milkJug.isClean()) {
-            milkJug.clean();
+        if (!((PlasticGarbage)milkJug).isClean()) {
+            ((PlasticGarbage)milkJug).clean();
         }
         
         dustbin.throwOutGarbage(milkJug);
