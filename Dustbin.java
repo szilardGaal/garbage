@@ -1,7 +1,7 @@
 public class Dustbin {
     String color;
-    PaperGarbage[] paperContent;
-    PlasticGarbage[] plasticContent;
+    PaperGarbage[] paperContent, tempPaperGarbages;
+    PlasticGarbage[] plasticContent, tempPlasticGarbages;
     Garbage[] houseWasteContent;
 
     Dustbin(String col) {
@@ -20,7 +20,7 @@ public class Dustbin {
         return houseWasteContent;
    }
 
-   public void displayCOntents() {
+   public void displayContents() {
 
         System.out.println(this.color + " dustbin!");
 
@@ -42,9 +42,21 @@ public class Dustbin {
 
         if (garbage instanceof PlasticGarbage) {   
             if (((PlasticGarbage)garbage).isClean() == false) {
+
                 throw new DustbinContentException();
             } else {
                 garbage = (PlasticGarbage)garbage;
+                if (plasticContent == null) {
+                    plasticContent = new PlasticGarbage[1];
+                    plasticContent[0] = garbage;
+                } else {
+                    tempPlasticGarbages = new PlasticGarbage[plasticContent.length + 1];
+                    for (int i = 0; i < plasticContent.length; i++) {
+                        tempPlasticGarbages[i] = plasticContent[i];
+                    }
+                    tempPlasticGarbages[tempPlasticGarbages.length] = garbage;
+                    plasticContent = tempPlasticGarbages;
+                }
             }
 
         } else if (garbage instanceof PaperGarbage) {
