@@ -2,7 +2,7 @@ public class Dustbin {
     String color;
     PaperGarbage[] paperContent, tempPaperGarbages;
     PlasticGarbage[] plasticContent, tempPlasticGarbages;
-    Garbage[] houseWasteContent;
+    Garbage[] houseWasteContent, tempHouseWasteContent;
 
     Dustbin(String col) {
         color = col;
@@ -45,16 +45,15 @@ public class Dustbin {
 
                 throw new DustbinContentException();
             } else {
-                garbage = (PlasticGarbage)garbage;
                 if (plasticContent == null) {
                     plasticContent = new PlasticGarbage[1];
-                    plasticContent[0] = garbage;
+                    plasticContent[0] = (PlasticGarbage)garbage;
                 } else {
                     tempPlasticGarbages = new PlasticGarbage[plasticContent.length + 1];
                     for (int i = 0; i < plasticContent.length; i++) {
                         tempPlasticGarbages[i] = plasticContent[i];
                     }
-                    tempPlasticGarbages[tempPlasticGarbages.length] = garbage;
+                    tempPlasticGarbages[tempPlasticGarbages.length] = (PlasticGarbage)garbage;
                     plasticContent = tempPlasticGarbages;
                 }
             }
@@ -63,7 +62,29 @@ public class Dustbin {
             if (((PaperGarbage)garbage).isSqueezed() == false) {
                 throw new DustbinContentException();
             } else {
-                garbage = (PaperGarbage)garbage;
+                if (paperContent == null) {
+                    paperContent = new PaperGarbage[1];
+                    paperContent[0] = (PaperGarbage)garbage;
+                } else {
+                    tempPaperGarbages = new PaperGarbage[paperContent.length + 1];
+                    for (int i = 0; i < paperContent.length; i++) {
+                        tempPaperGarbages[i] = paperContent[i];
+                    }
+                    tempPaperGarbages[tempPaperGarbages.length] = (PaperGarbage)garbage;
+                    paperContent = tempPaperGarbages;
+                }
+            }
+        } else {
+            if (houseWasteContent == null) {
+                houseWasteContent = new Garbage[1];
+                houseWasteContent[0] = garbage;
+            } else {
+                tempHouseWasteContent = new Garbage[houseWasteContent.length + 1];
+                for (int i = 0; i < houseWasteContent.length; i++) {
+                    tempHouseWasteContent[i] = houseWasteContent[i];
+                }
+                tempHouseWasteContent[tempHouseWasteContent.length] = garbage;
+                houseWasteContent = tempHouseWasteContent;
             }
         }
     }
